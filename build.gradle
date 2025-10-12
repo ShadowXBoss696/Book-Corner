@@ -36,6 +36,8 @@ dependencies {
 
     implementation 'org.apache.commons:commons-lang3:3.18.0'
     implementation 'commons-io:commons-io:2.20.0'
+
+    implementation 'com.squareup.okhttp3:okhttp'
     runtimeOnly 'org.postgresql:postgresql'
 
     compileOnly 'org.projectlombok:lombok'
@@ -49,6 +51,7 @@ dependencyManagement {
     imports {
         mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2025.0.0'
         mavenBom 'org.springdoc:springdoc-openapi-bom:2.8.13'
+        mavenBom 'com.squareup.okhttp3:okhttp-bom:5.1.0'
     }
 }
 
