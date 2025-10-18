@@ -1,4 +1,4 @@
-package com.bookcorner.entity;
+package com.bookcorner.entity.catalog;
 
 import com.bookcorner.entity.base.BaseEntity;
 import jakarta.persistence.Entity;
@@ -10,8 +10,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "author")
+@Table(name = "work")
 @NoArgsConstructor
-public class Author extends BaseEntity {
-
+public class Work extends BaseEntity {
 }
