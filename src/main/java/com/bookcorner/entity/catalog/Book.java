@@ -28,6 +28,9 @@ public class Book extends BaseEntity {
     @Column(name = "isbn13", unique = true)
     private String isbn13;
 
+    @Column(name = "olid", unique = true)
+    private String olid;
+
     @Column(name = "cover_image")
     private String coverImage;
 
@@ -36,6 +39,9 @@ public class Book extends BaseEntity {
 
     @Column(name = "stock_quantity", nullable = false)
     private Integer stockQuantity;
+
+    @Column(name = "page_count")
+    private Integer pageCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publisher_id")
