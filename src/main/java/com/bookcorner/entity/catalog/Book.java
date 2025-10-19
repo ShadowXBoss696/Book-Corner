@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -22,11 +23,11 @@ public class Book extends BaseEntity {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "isbn", unique = true)
-    private String isbn;
+    @Column(name = "isbn_10", unique = true)
+    private List<String> isbn10;
 
-    @Column(name = "isbn13", unique = true)
-    private String isbn13;
+    @Column(name = "isbn_13", unique = true)
+    private List<String> isbn13;
 
     @Column(name = "olid", unique = true)
     private String olid;
