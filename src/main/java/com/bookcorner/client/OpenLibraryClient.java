@@ -250,6 +250,21 @@ public class OpenLibraryClient {
         return null;
     }
 
+    // Maps a JsonNode to an AuthorResponse object
+    private Optional<AuthorResponse> mapToAuthorResponse(JsonNode node) {
+        if (node == null || node.isNull()) {
+            return Optional.empty();
+        }
+
+        AuthorResponse authorResponse = new AuthorResponse();
+
+        authorResponse.setName(node.path("name").asText());
+        authorResponse.setBio(node.path("bio").asText(null));
+
+        return Optional.of(authorResponse);
+    }
+
+    // Extracts the year from a date string
     private Integer extractYearFromDateString(String dateStr) {
         if (dateStr == null) {
             return null;
@@ -265,67 +280,12 @@ public class OpenLibraryClient {
         return null;
     }
 
-    private String extractNthItemFromArray(JsonNode node, String fieldName, int n) {
+    // Extracts the nth item from a JSON array field
+    private String extractNthItemFromArray(JsonNode node, String fieldName, int i) {
         JsonNode arrayNode = node.path(fieldName);
-        if (arrayNode.isArray() && arrayNode.size() > n) {
-            return arrayNode.get(n).asText(null);
+        if (arrayNode.isArray() && arrayNode.size() > i) {
+            return arrayNode.get(i).asText(null);
         }
         return null;
     }
-
-    // Maps a JsonNode to an AuthorResponse object
-    private Optional<AuthorResponse> mapToAuthorResponse(JsonNode node) {
-        if (node == null || node.isNull()) {
-            return Optional.empty();
-        }
-
-        AuthorResponse authorResponse = new AuthorResponse();
-        return Optional.of(authorResponse);
-    }
-
-//
-//    private BookData parseBookData(JsonNode node) {
-//        BookData data = new BookData();
-//        data.setTitle(node.path("title").asText());
-//        data.setSubtitle(node.path("subtitle").asText(null));
-//        data.setDescription(node.path("description").asText(null));
-//        data.setAuthorIds(node.path("authors").findValuesAsText("key").stream()
-//            .map(key -> key.substring(key.lastIndexOf('/') + 1))
-//            .collect(Collectors.toSet()));
-//        data.setPublishers(node.path("publishers").);
-//        data.setPublicationYear(extractPublicationYear(node));
-//        data.setIsbn10(node.path("isbn10").asText(null));
-//        data.setIsbn13(node.path("isbn13").asText(null));
-//        return data;
-//    }
-//
-//    private Integer extractPublicationYear(JsonNode node) {
-//        String publishDate = node.path("publish_date").asText(null);
-//        if (publishDate != null) {
-//            // Get first number as year
-//            String[] parts = publishDate.split("\\D+");
-//            if (parts.length > 0) {
-//                try {
-//                    return Integer.parseInt(parts[0]);
-//                } catch (NumberFormatException e) {
-//                    // Ignore and return null
-//                }
-//            }
-//        }
-//        return null;
-//    }
-//
-//    @Data
-//    public static class BookData {
-//        private String title;
-//        private String subtitle;
-//        private String description;
-//        private Set<String> authorIds;
-//        private Set<String> publishers;
-//        private Integer publicationYear;
-//        private String isbn10;
-//        private String isbn13;
-//        private String coverImageId;
-//        private Set<String> categories;
-//    }
 }

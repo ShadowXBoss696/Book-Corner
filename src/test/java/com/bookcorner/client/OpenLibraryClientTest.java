@@ -1,13 +1,12 @@
 package com.bookcorner.client;
 
-import com.bookcorner.config.HttpClientConfig;
+import com.bookcorner.model.olclient.AuthorResponse;
 import com.bookcorner.model.olclient.BookResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.annotation.Import;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-@Import(HttpClientConfig.class)
 class OpenLibraryClientTest {
 
     @InjectMocks
@@ -50,5 +48,20 @@ class OpenLibraryClientTest {
     void fetchBookByOLID_shouldReturnEmptyOptional_whenNoResultsFound() throws IOException {
         Optional<BookResponse> bookResponse = client.fetchBookByOLID("OL00000000M");    // Non-existent OLID
         assertFalse(bookResponse.isPresent(), "BookResponse should be empty for an invalid OLID");
+    }
+
+    @Test
+    void fetchAuthorByOLID_shouldReturnAuthorResponse_whenSuccessful() throws IOException {
+        Optional<AuthorResponse> authorResponse = client.fetchAuthorByOLID("OL2832500A");    // Jeff Kinney
+        assertTrue(authorResponse.isPresent(), "AuthorResponse should be present for a valid OLID");
+
+        AuthorResponse author = authorResponse.get();
+        assertTrue(StringUtils.isNotBlank(author.getName()), "Author name should not be blank");
+    }
+
+    @Test
+    void fetchAuthorByOLID_shouldReturnEmptyOptional_whenNoResultsFound() throws IOException {
+        Optional<AuthorResponse> authorResponse = client.fetchAuthorByOLID("OL0000000A");    // Non-existent OLID
+        assertFalse(authorResponse.isPresent(), "AuthorResponse should be empty for an invalid OLID");
     }
 }
