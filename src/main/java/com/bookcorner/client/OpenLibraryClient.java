@@ -78,6 +78,7 @@ public class OpenLibraryClient {
             .addQueryParameter("q", query)
             .addQueryParameter("fields", "key,editions")
             .addQueryParameter("limit", "" + limit)
+            .addQueryParameter("lang", "en")
             .build();
 
         // Build Request
@@ -211,8 +212,8 @@ public class OpenLibraryClient {
 
         BookResponse bookResponse = new BookResponse();
 
-        bookResponse.setTitle(node.get("title").asText());
-        bookResponse.setSubtitle(node.get("subtitle").asText(null));
+        bookResponse.setTitle(node.path("title").asText());
+        bookResponse.setSubtitle(node.path("subtitle").asText(null));
         bookResponse.setDescription(extractBookDescription(node));
 
         Set<String> authorIds = node.path("authors").findValuesAsText("key").stream()
