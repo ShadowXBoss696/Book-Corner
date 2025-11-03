@@ -2,55 +2,25 @@ package com.bookcorner.entity.catalog;
 
 import com.bookcorner.entity.base.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-@Getter
-@Setter
 @Entity
-@Table(name = "book")
-@NoArgsConstructor
+@Table(name = "books")
 public class Book extends BaseEntity {
 
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Column(name = "subtitle")
+    private String subtitle;
+
     @Column(name = "description")
     private String description;
 
-    @Column(name = "isbn_10", unique = true)
-    private List<String> isbn10;
-
-    @Column(name = "isbn_13", unique = true)
-    private List<String> isbn13;
-
-    @Column(name = "olid", unique = true)
+    @Column(name = "olid")
     private String olid;
-
-    @Column(name = "cover_image")
-    private String coverImage;
-
-    @Column(name = "publication_year")
-    private Integer publicationYear;
-
-    @Column(name = "stock_quantity", nullable = false)
-    private Integer stockQuantity;
-
-    @Column(name = "page_count")
-    private Integer pageCount;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "publisher_id")
-    private Publisher publisher;
-
-    @ManyToOne(fetch =  FetchType.LAZY)
-    @JoinColumn(name = "work_id")
-    private Work work;
 
     @ManyToMany
     @JoinTable(
@@ -60,11 +30,30 @@ public class Book extends BaseEntity {
     )
     private Set<Author> authors = new HashSet<>();
 
-    @ManyToMany
-    @JoinTable(
-        name = "book_category",
-        joinColumns = @JoinColumn(name = "book_id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
-    private Set<Category> categories = new HashSet<>();
+    @Column(name = "publishers")
+    private Set<String> publishers = new HashSet<>();
+
+    @Column(name = "publication_year")
+    private Integer publicationYear;
+
+    @Column(name = "isbn_10")
+    private String isbn10;
+
+    @Column(name = "isbn_13")
+    private String isbn13;
+
+    @Column(name = "cover_image_url")
+    private String coverImageUrl;
+
+    @Column(name = "page_count")
+    private Integer pageCount;
+
+    @Column(name = "stock_quantity", nullable = false)
+    private Integer stockQuantity;
+
+    @Column(name = "price_usd", nullable = false)
+    private Double price;
+
+    @Column(name = "categories")
+    private Set<String> categories;
 }

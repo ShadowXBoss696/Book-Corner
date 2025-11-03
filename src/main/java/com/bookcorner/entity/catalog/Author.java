@@ -1,18 +1,14 @@
 package com.bookcorner.entity.catalog;
 
 import com.bookcorner.entity.base.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import org.hibernate.Hibernate;
 
-@Getter
-@Setter
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
-@Table(name = "author")
-@NoArgsConstructor
+@Table(name = "authors")
 public class Author extends BaseEntity {
 
     @Column(name = "name", nullable = false)
@@ -21,6 +17,14 @@ public class Author extends BaseEntity {
     @Column(name = "bio")
     private String bio;
 
-    @Column(name = "olid", unique = true)
+    @Column(name = "olid")
     private String olid;
+
+    @ManyToMany
+    @JoinTable(
+        name = "book_author",
+        joinColumns =  @JoinColumn(name = "author_id"),
+        inverseJoinColumns = @JoinColumn(name = "book_id")
+    )
+    private Set<Book> books = new HashSet<>();
 }

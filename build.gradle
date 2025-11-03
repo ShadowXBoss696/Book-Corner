@@ -38,7 +38,11 @@ dependencies {
     implementation 'commons-io:commons-io:2.20.0'
 
     implementation 'com.squareup.okhttp3:okhttp'
+    implementation 'com.jayway.jsonpath:json-path'
     runtimeOnly 'org.postgresql:postgresql'
+
+    implementation 'io.github.resilience4j:resilience4j-ratelimiter'
+    implementation 'io.github.resilience4j:resilience4j-retry'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -52,6 +56,7 @@ dependencyManagement {
         mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2025.0.0'
         mavenBom 'org.springdoc:springdoc-openapi-bom:2.8.13'
         mavenBom 'com.squareup.okhttp3:okhttp-bom:5.1.0'
+        mavenBom 'io.github.resilience4j:resilience4j-bom:2.3.0'
     }
 }
 
