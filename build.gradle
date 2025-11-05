@@ -72,3 +72,8 @@ tasks.withType(JavaCompile).configureEach {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+tasks.named('wrapper') {
+    gradleVersion = 'latest'
+    distributionType = Wrapper.DistributionType.BIN
+}
