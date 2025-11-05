@@ -26,11 +26,6 @@ public class Author extends BaseEntity {
     @Column(name = "olid")
     private String olid;
 
-    @ManyToMany
-    @JoinTable(
-        name = "book_author",
-        joinColumns =  @JoinColumn(name = "author_id"),
-        inverseJoinColumns = @JoinColumn(name = "book_id")
-    )
+    @ManyToMany(mappedBy = "authors")
     private Set<Book> books = new HashSet<>();
 }

@@ -14,6 +14,7 @@ import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.retry.Retry;
 import io.github.resilience4j.retry.RetryConfig;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OpenLibraryClient {
@@ -59,6 +61,14 @@ public class OpenLibraryClient {
             .intervalFunction(IntervalFunction.ofExponentialBackoff(1000, 2))
             .retryOnResult(response ->
                 ((Response) response).code() == 429 || ((Response) response).code() == 403)
+
+            .consumeResultBeforeRetryAttempt((numTries, response) -> {
+                int statusCode = ((Response) response).code();
+                log.warn("Received HTTP status code {} from Open Library API. Retrying ... #{}", statusCode, numTries);
+
+                // Close response to prevent resource leaks
+                ((Response) response).close();
+            })
             .build());
 
 
@@ -214,7 +224,7 @@ public class OpenLibraryClient {
 
         bookResponse.setTitle(node.path("title").asText());
         bookResponse.setSubtitle(node.path("subtitle").asText(null));
-        bookResponse.setDescription(extractBookDescription(node));
+        bookResponse.setDescription(extractDescText(node, "description"));
 
         Set<String> authorIds = node.path("authors").findValuesAsText("key").stream()
             .map(key -> key.substring(key.lastIndexOf('/') + 1))
@@ -235,8 +245,22 @@ public class OpenLibraryClient {
         return Optional.of(bookResponse);
     }
 
-    private String extractBookDescription(JsonNode node) {
-        JsonNode descNode = node.get("description");
+    // Maps a JsonNode to an AuthorResponse object
+    private Optional<AuthorResponse> mapToAuthorResponse(JsonNode node) {
+        if (node == null || node.isNull()) {
+            return Optional.empty();
+        }
+
+        AuthorResponse authorResponse = new AuthorResponse();
+
+        authorResponse.setName(node.path("name").asText());
+        authorResponse.setBio(extractDescText(node, "bio"));
+
+        return Optional.of(authorResponse);
+    }
+
+    private String extractDescText(JsonNode node, String fieldName) {
+        JsonNode descNode = node.get(fieldName);
         if (descNode == null || descNode.isNull()) {
             return null;
         }
@@ -250,31 +274,19 @@ public class OpenLibraryClient {
         return null;
     }
 
-    // Maps a JsonNode to an AuthorResponse object
-    private Optional<AuthorResponse> mapToAuthorResponse(JsonNode node) {
-        if (node == null || node.isNull()) {
-            return Optional.empty();
-        }
-
-        AuthorResponse authorResponse = new AuthorResponse();
-
-        authorResponse.setName(node.path("name").asText());
-        authorResponse.setBio(node.path("bio").asText(null));
-
-        return Optional.of(authorResponse);
-    }
-
     // Extracts the year from a date string
     private Integer extractYearFromDateString(String dateStr) {
         if (dateStr == null) {
             return null;
         }
         String[] parts = dateStr.split("\\D+");
-        if (parts.length > 0) {
-            try {
-                return Integer.parseInt(parts[0]);
-            } catch (NumberFormatException e) {
-                // Ignore and return null
+        for (String part : parts) {
+            if (part.length() >= 4) {   // Look for a 4-digit year
+                try {
+                    return Integer.parseInt(part.substring(0, 4));
+                } catch (NumberFormatException e) {
+                    // Ignore and continue
+                }
             }
         }
         return null;

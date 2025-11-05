@@ -75,6 +75,7 @@ public class CatalogService {
         details.setIsbn13(book.getIsbn13());
         details.setStockQuantity(book.getStockQuantity());
         details.setPrice(book.getPrice());
+        details.setCategories(book.getCategories());
         return details;
     }
 

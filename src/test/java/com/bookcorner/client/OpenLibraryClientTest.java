@@ -4,9 +4,6 @@ import com.bookcorner.model.olclient.AuthorResponse;
 import com.bookcorner.model.olclient.BookResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,11 +11,9 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
 class OpenLibraryClientTest {
 
-    @InjectMocks
-    private OpenLibraryClient client;
+    private final OpenLibraryClient client = new OpenLibraryClient();
 
     @Test
     void searchBooks_shouldReturnEditionIds_whenSuccessful() throws IOException {

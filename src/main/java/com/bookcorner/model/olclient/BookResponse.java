@@ -1,7 +1,6 @@
 package com.bookcorner.model.olclient;
 
 import lombok.Data;
-import lombok.NonNull;
 
 import java.util.List;
 import java.util.Set;
