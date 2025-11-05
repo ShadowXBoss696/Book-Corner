@@ -1,13 +1,11 @@
 package com.bookcorner.controller;
 
-import com.bookcorner.model.AuthorDetails;
-import com.bookcorner.model.AuthorSummary;
-import com.bookcorner.service.AuthorService;
+import com.bookcorner.model.catalog.AuthorDetails;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
@@ -16,15 +14,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthorController {
 
-    private final AuthorService authorService;
-
-    @GetMapping("/search")
-    public Page<AuthorSummary> searchAuthors(@RequestParam String q, @ParameterObject Pageable pageable) {
-        return authorService.searchAuthors(q, pageable);
+    @GetMapping("/{uuid}")
+    public AuthorDetails getAuthorDetails(@PathVariable UUID uuid) {
+        return null;
     }
 
-    @GetMapping("/{authorId}/details")
-    public AuthorDetails getAuthorDetails(@PathVariable UUID authorId) {
-        return authorService.getAuthorDetails(authorId);
+    @GetMapping("/olid/{identifier}")
+    public AuthorDetails findAuthorByOlid(@PathVariable String identifier) {
+        return null;
     }
 }

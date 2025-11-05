@@ -1,14 +1,11 @@
 package com.bookcorner.controller;
 
-import com.bookcorner.model.BookDetails;
-import com.bookcorner.model.BookSummary;
-import com.bookcorner.service.BookService;
+import com.bookcorner.model.catalog.BookDetails;
+import com.bookcorner.model.catalog.BookSummary;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -16,15 +13,23 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class BookController {
 
-    private final BookService bookService;
-
-    @GetMapping("/search")
-    public Page<BookSummary> searchBooks(@RequestParam String q, @ParameterObject Pageable pageable) {
-        return bookService.searchBooks(q, pageable);
+    @GetMapping
+    public List<BookSummary> searchBooks(@RequestParam(name = "q") String query) {
+        return null;
     }
 
-    @GetMapping("/{bookId}/details")
-    public BookDetails getBookDetails(@PathVariable UUID bookId) {
-        return bookService.getBookDetails(bookId);
+    @GetMapping("/{uuid}")
+    public BookDetails getBookDetails(@PathVariable UUID uuid) {
+        return null;
+    }
+
+    @GetMapping("/isbn/{identifier}")
+    public BookDetails findBookByIsbn(@PathVariable String identifier) {
+        return null;
+    }
+
+    @GetMapping("/olid/{identifier}")
+    public BookDetails findBookByOlid(@PathVariable String identifier) {
+        return null;
     }
 }

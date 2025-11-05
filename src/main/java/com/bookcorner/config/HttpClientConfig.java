@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ClientConfig {
+public class HttpClientConfig {
 
     @Bean
     public OkHttpClient httpClient() {
-        return OkHttpClientFactory.defaultClient();
+        return OkHttpClientFactory.getHttpClient();     // Return Default Client
     }
 }
