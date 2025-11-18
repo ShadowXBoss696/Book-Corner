@@ -1,7 +1,7 @@
 package com.bookcorner.client;
 
-import com.bookcorner.model.olclient.AuthorResponse;
-import com.bookcorner.model.olclient.BookResponse;
+import com.bookcorner.model.openlibrary.OpenLibraryAuthor;
+import com.bookcorner.model.openlibrary.OpenLibraryBook;
 import com.bookcorner.util.OkHttpClientFactory;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -82,11 +82,12 @@ public class OpenLibraryClient {
      * @return a list of edition IDs matching the query from Open Library
      * @throws IOException if an connection error occurs during the request
      */
-    public List<String> searchBooks(String query, int limit) throws IOException {
+    public List<String> searchBooks(String query, long offset, int limit) throws IOException {
         // Prepare URL
         HttpUrl url = HttpUrl.get(BASE_URL + "/search.json").newBuilder()
             .addQueryParameter("q", query)
             .addQueryParameter("fields", "key,editions")
+            .addQueryParameter("offset", "" + offset)
             .addQueryParameter("limit", "" + limit)
             .addQueryParameter("lang", "en")
             .build();
@@ -116,10 +117,10 @@ public class OpenLibraryClient {
      * Fetches detailed book information by its Open Library ID (OLID).
      *
      * @param olid the Open Library ID of the book
-     * @return an Optional containing {@link BookResponse} if found, otherwise empty
+     * @return an Optional containing {@link OpenLibraryBook} if found, otherwise empty
      * @throws IOException if a connection error occurs during the request
      */
-    public Optional<BookResponse> fetchBookByOLID(String olid) throws IOException {
+    public Optional<OpenLibraryBook> fetchBookByOLID(String olid) throws IOException {
         // Prepare URL
         HttpUrl url = HttpUrl.get(BASE_URL + "/books/" + olid + ".json");
 
@@ -141,10 +142,10 @@ public class OpenLibraryClient {
      * Fetches detailed author information by their Open Library ID (OLID).
      *
      * @param olid the Open Library ID of the author
-     * @return an Optional containing {@link AuthorResponse} if found, otherwise empty
+     * @return an Optional containing {@link OpenLibraryAuthor} if found, otherwise empty
      * @throws IOException if a connection error occurs during the request
      */
-    public Optional<AuthorResponse> fetchAuthorByOLID(String olid) throws IOException {
+    public Optional<OpenLibraryAuthor> fetchAuthorByOLID(String olid) throws IOException {
         // Prepare URL
         HttpUrl url = HttpUrl.get(BASE_URL + "/authors/" + olid + ".json");
 
@@ -215,48 +216,48 @@ public class OpenLibraryClient {
     }
 
     // Maps a JsonNode to a BookResponse object
-    private Optional<BookResponse> mapToBookResponse(JsonNode node) {
+    private Optional<OpenLibraryBook> mapToBookResponse(JsonNode node) {
         if (node == null || node.isNull()) {
             return Optional.empty();
         }
 
-        BookResponse bookResponse = new BookResponse();
+        OpenLibraryBook openLibraryBook = new OpenLibraryBook();
 
-        bookResponse.setTitle(node.path("title").asText());
-        bookResponse.setSubtitle(node.path("subtitle").asText(null));
-        bookResponse.setDescription(extractDescText(node, "description"));
+        openLibraryBook.setTitle(node.path("title").asText());
+        openLibraryBook.setSubtitle(node.path("subtitle").asText(null));
+        openLibraryBook.setDescription(extractDescText(node, "description"));
 
         Set<String> authorIds = node.path("authors").findValuesAsText("key").stream()
             .map(key -> key.substring(key.lastIndexOf('/') + 1))
             .collect(Collectors.toSet());
-        bookResponse.setAuthorIds(authorIds);
+        openLibraryBook.setAuthorIds(authorIds);
 
-        bookResponse.setPublishers(mapper.convertValue(node.get("publishers"), new TypeReference<>() {}));
-        bookResponse.setPublishYear(extractYearFromDateString(node.path("publish_date").asText(null)));
+        openLibraryBook.setPublishers(mapper.convertValue(node.get("publishers"), new TypeReference<>() {}));
+        openLibraryBook.setPublishYear(extractYearFromDateString(node.path("publish_date").asText(null)));
 
-        bookResponse.setIsbn10(extractNthItemFromArray(node, "isbn_10", 0));
-        bookResponse.setIsbn13(extractNthItemFromArray(node, "isbn_13", 0));
+        openLibraryBook.setIsbn10(extractNthItemFromArray(node, "isbn_10", 0));
+        openLibraryBook.setIsbn13(extractNthItemFromArray(node, "isbn_13", 0));
 
-        bookResponse.setCoverImageId(extractNthItemFromArray(node, "covers", 0));
-        bookResponse.setPageCount(node.has("number_of_pages") ? node.path("number_of_pages").asInt() : null);
+        openLibraryBook.setCoverImageId(extractNthItemFromArray(node, "covers", 0));
+        openLibraryBook.setPageCount(node.has("number_of_pages") ? node.path("number_of_pages").asInt() : null);
 
-        bookResponse.setCategories(mapper.convertValue(node.get("subjects"), new TypeReference<>() {}));
+        openLibraryBook.setCategories(mapper.convertValue(node.get("subjects"), new TypeReference<>() {}));
 
-        return Optional.of(bookResponse);
+        return Optional.of(openLibraryBook);
     }
 
     // Maps a JsonNode to an AuthorResponse object
-    private Optional<AuthorResponse> mapToAuthorResponse(JsonNode node) {
+    private Optional<OpenLibraryAuthor> mapToAuthorResponse(JsonNode node) {
         if (node == null || node.isNull()) {
             return Optional.empty();
         }
 
-        AuthorResponse authorResponse = new AuthorResponse();
+        OpenLibraryAuthor openLibraryAuthor = new OpenLibraryAuthor();
 
-        authorResponse.setName(node.path("name").asText());
-        authorResponse.setBio(extractDescText(node, "bio"));
+        openLibraryAuthor.setName(node.path("name").asText());
+        openLibraryAuthor.setBio(extractDescText(node, "bio"));
 
-        return Optional.of(authorResponse);
+        return Optional.of(openLibraryAuthor);
     }
 
     private String extractDescText(JsonNode node, String fieldName) {

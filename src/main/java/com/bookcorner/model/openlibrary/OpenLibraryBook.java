@@ -1,4 +1,4 @@
-package com.bookcorner.model.olclient;
+package com.bookcorner.model.openlibrary;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 @Data
-public class BookResponse {
+public class OpenLibraryBook {
 
     private String title;
     private String subtitle;

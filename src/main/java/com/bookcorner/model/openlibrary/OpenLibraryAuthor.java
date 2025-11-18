@@ -1,9 +1,9 @@
-package com.bookcorner.model.olclient;
+package com.bookcorner.model.openlibrary;
 
 import lombok.Data;
 
 @Data
-public class AuthorResponse {
+public class OpenLibraryAuthor {
 
     private String name;
     private String bio;
