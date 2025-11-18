@@ -1,0 +1,95 @@
+// Plugin configurations
+plugins {
+    id 'org.springframework.boot' version '3.5.7'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'java'
+    id 'idea'
+}
+
+// Project metadata
+group = 'com.bookcorner'
+version = '0.0.1-SNAPSHOT'
+
+// Java compatibility settings
+java {
+    toolchain {
+        // Configure Java toolchain
+        languageVersion = JavaLanguageVersion.of(25)
+        vendor = JvmVendorSpec.AZUL
+    }
+}
+
+// Configurations for dependencies
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+// Repository configurations
+repositories {
+    mavenCentral()
+}
+
+// Dependency management
+dependencies {
+    // Spring Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring Actuator for monitoring and management
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // OpenAPI and Swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
+
+    // HTTP Client
+    implementation 'com.squareup.okhttp3:okhttp'
+    implementation 'com.jayway.jsonpath:json-path'
+
+    // Resilience4j for fault tolerance
+    implementation 'io.github.resilience4j:resilience4j-ratelimiter'
+    implementation 'io.github.resilience4j:resilience4j-retry'
+
+    // Apache Commons Libraries
+    implementation 'org.apache.commons:commons-lang3:3.18.0'
+    implementation 'commons-io:commons-io:2.20.0'
+
+    // Annotation processors
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // Testing dependencies
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2025.0.0'
+        mavenBom 'org.springdoc:springdoc-openapi-bom:2.8.14'
+        mavenBom 'com.squareup.okhttp3:okhttp-bom:5.3.0'
+        mavenBom 'io.github.resilience4j:resilience4j-bom:2.3.0'
+    }
+}
+
+
+// Task configurations
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.compilerArgs += [
+        '-parameters',          // Preserve parameter names for reflection
+        '-Xlint:unchecked',     // Enable unchecked operation warnings
+        '-Xlint:deprecation'    // Enable deprecation warnings
+    ]
+}
+
+tasks.named('test') {
+    useJUnitPlatform()          // Use JUnit Platform for testing
+}
+
+tasks.named('wrapper') {
+    gradleVersion = 'latest'
+    distributionType = Wrapper.DistributionType.BIN
+}
