@@ -31,7 +31,7 @@ import java.time.Duration;
 @Slf4j
 public class OpenLibraryInterceptor implements Interceptor {
 
-    private final String USER_AGENT = "Book-Corner API (arpan.mahanty.007@gmail.com)";
+    private static final String USER_AGENT = "Book-Corner API (arpan.mahanty.007@gmail.com)";
 
     /// Rate Limiters
 
@@ -91,10 +91,9 @@ public class OpenLibraryInterceptor implements Interceptor {
         // Execute the chain
         try {
             return httpsupplier.get();
+        } catch (IOException e) {
+            throw e;
         } catch (Throwable e) {
-            if (e instanceof IOException) {
-                throw (IOException) e;
-            }
             throw new IOException("Unexpected error during request execution", e);
         }
     }
