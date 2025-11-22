@@ -16,6 +16,18 @@ import org.jspecify.annotations.NonNull;
 import java.io.IOException;
 import java.time.Duration;
 
+/**
+ * Interceptor for Open Library API requests.
+ * <p>
+ * Responsibilities:
+ * <ol>
+ *   <li>Adds metadata (User-Agent header) to each request.
+ *   <li>Implements rate limiting based on Open Library's guidelines.
+ *   <li>Implements retry mechanism for handling rate limit exceedance (HTTP 429) and forbidden access (HTTP 403).
+ * </ol>
+ *
+ * @see okhttp3.Interceptor
+ */
 @Slf4j
 public class OpenLibraryInterceptor implements Interceptor {
 
