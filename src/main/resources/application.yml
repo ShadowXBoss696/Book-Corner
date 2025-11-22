@@ -1,0 +1,40 @@
+# ======================================================
+# Spring Boot Application Configuration File
+# ======================================================
+
+# Server Configuration
+server:
+  port: 8080
+
+# Application Settings
+spring:
+  application:
+    name: bookcorner-api
+
+  # File Upload Settings
+  servlet:
+    multipart:
+      max-file-size: 50MB
+
+# =================================================================
+# Monitoring & Management Configuration
+# =================================================================
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,configprops
+  endpoint:
+    health:
+      show-details: when-authorized
+  info:
+    env:
+      enabled: true
+
+# =================================================================
+# Documentation Configuration
+# =================================================================
+
+springdoc:
+  default-produces-media-type: application/json
