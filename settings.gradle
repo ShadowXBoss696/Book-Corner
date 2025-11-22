@@ -1,5 +1,7 @@
+// Apply the Foojay resolver convention plugin to help locate and configure Java toolchains (JDKs).
 plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
 }
 
-rootProject.name = 'bookcorner-api'
+// Define the Gradle root project name. This name is used for generated artifacts and in IDE imports.
+rootProject.name = "bookcorner"
