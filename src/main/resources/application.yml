@@ -11,6 +11,23 @@ spring:
   application:
     name: bookcorner-api
 
+  # Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/bookcorner_db
+    username: admin
+    password: admin123
+
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
   # File Upload Settings
   servlet:
     multipart:
