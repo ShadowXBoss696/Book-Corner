@@ -33,6 +33,12 @@ spring:
     multipart:
       max-file-size: 50MB
 
+  # Docker Integration
+  docker:
+    compose:
+      file: docker-compose.yml
+      lifecycle-management: start_only
+
 # =================================================================
 # Monitoring & Management Configuration
 # =================================================================
