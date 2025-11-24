@@ -28,6 +28,13 @@ spring:
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
+  # Migration Configuration
+  flyway:
+    enabled: false              # TODO: Enable once setup is completed
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    clean-disabled: false       # Enable clean for development purposes
+
   # File Upload Settings
   servlet:
     multipart:
