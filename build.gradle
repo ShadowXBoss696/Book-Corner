@@ -36,12 +36,20 @@ dependencies {
     // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
+    // Spring Data JPA for database interactions
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.flywaydb:flyway-database-postgresql'
+    runtimeOnly 'org.postgresql:postgresql'
+
     // Spring Actuator for monitoring and management
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     // OpenAPI and Swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
+
+    // Spring Docker integration
+    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 
     // HTTP Client
     implementation 'com.squareup.okhttp3:okhttp'
@@ -62,6 +70,11 @@ dependencies {
     // Testing dependencies
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Testcontainers for integration testing
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testImplementation 'org.testcontainers:testcontainers-junit-jupiter'
+    testImplementation 'org.testcontainers:testcontainers-postgresql'
 }
 
 dependencyManagement {
@@ -70,6 +83,7 @@ dependencyManagement {
         mavenBom 'org.springdoc:springdoc-openapi-bom:2.8.14'
         mavenBom 'com.squareup.okhttp3:okhttp-bom:5.3.0'
         mavenBom 'io.github.resilience4j:resilience4j-bom:2.3.0'
+        mavenBom 'org.testcontainers:testcontainers-bom:2.0.2'
     }
 }
 

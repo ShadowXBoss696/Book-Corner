@@ -1,0 +1,39 @@
+# Infrastructure setup for Book Corner application using Docker Compose
+name: book-corner
+
+services:
+
+  # ----------------------------------------
+  # PostgreSQL Database Service
+  # ----------------------------------------
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: bookcorner_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - book-corner-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d bookcorner_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+
+# ----------------------------------------
+
+# Volume configuration
+volumes:
+  postgres-data:
+
+# Network configuration
+networks:
+  book-corner-network:
+    driver: bridge
