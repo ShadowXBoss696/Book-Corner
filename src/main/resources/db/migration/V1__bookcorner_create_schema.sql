@@ -1,8 +1,3 @@
--- Clear Schema
-DROP SCHEMA public CASCADE;
-CREATE SCHEMA public;
-
-
 --
 -- Enum: Author Roles
 --
@@ -28,8 +23,8 @@ CREATE TABLE books (
 	publication_year INTEGER,
 	page_count INTEGER,
 	olid VARCHAR(20),
-	isbn10 VARCHAR(10),
-	isbn13 VARCHAR(13),
+	isbn_10 VARCHAR(10),
+	isbn_13 VARCHAR(13),
 	language_code VARCHAR(10) DEFAULT 'en',
 	created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
 	updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -37,8 +32,8 @@ CREATE TABLE books (
 );
 
 CREATE UNIQUE INDEX idx_books_uk_olid ON books (olid);
-CREATE UNIQUE INDEX idx_books_uk_isbn10 ON books (isbn10);
-CREATE UNIQUE INDEX idx_books_uk_isbn13 ON books (isbn13);
+CREATE UNIQUE INDEX idx_books_uk_isbn_10 ON books (isbn_10);
+CREATE UNIQUE INDEX idx_books_uk_isbn_13 ON books (isbn_13);
 
 
 --
@@ -73,9 +68,9 @@ CREATE TABLE book_authors (
 	role author_role NOT NULL DEFAULT 'AUTHOR',
 	ordinal INTEGER NOT NULL DEFAULT 0,
 	CONSTRAINT book_authors_pk PRIMARY KEY (id),
-	CONSTRAINT book_authors_reln_books_fk FOREIGN KEY (book_id) REFERENCES books (id) 
+	CONSTRAINT book_authors_reln_books_fk FOREIGN KEY (book_id) REFERENCES books (id)
 		ON DELETE CASCADE,
-	CONSTRAINT book_authors_reln_authors_fk FOREIGN KEY (author_id) REFERENCES authors (id) 
+	CONSTRAINT book_authors_reln_authors_fk FOREIGN KEY (author_id) REFERENCES authors (id)
 		ON DELETE CASCADE
 );
 

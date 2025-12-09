@@ -15,35 +15,20 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "books")
-public class Book extends BaseEntity {
+@Table(name = "authors")
+public class Author extends BaseEntity {
 
-    @Column(name = "title", nullable = false)
-    private String title;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-    @Column(name = "summary")
-    private String summary;
-
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<BookAuthor> authors = new HashSet<>();
-
-    @Column(name = "publication_year")
-    private Integer publicationYear;
-
-    @Column(name = "page_count")
-    private Integer pageCount;
+    @Column(name = "bio")
+    private String bio;
 
     @Column(name = "olid")
     private String olid;
 
-    @Column(name = "isbn_10")
-    private String isbn10;
-
-    @Column(name = "isbn_13")
-    private String isbn13;
-
-    @Column(name = "language_code")
-    private String languageCode;
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BookAuthor> books = new HashSet<>();
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
