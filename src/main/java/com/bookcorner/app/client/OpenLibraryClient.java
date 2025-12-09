@@ -19,9 +19,7 @@ public class OpenLibraryClient {
     @Qualifier("openLibraryClient")
     private final OkHttpClient httpClient;
 
-    /// Helper Methods
-
-    // Execute a HTTP request and return the response body as an Optional String
+    // Execute an HTTP request and return the response body as an Optional String
     private Optional<String> executeRequest(Request request) throws IOException {
         try (Response response = httpClient.newCall(request).execute()) {
             // 404 Not Found
