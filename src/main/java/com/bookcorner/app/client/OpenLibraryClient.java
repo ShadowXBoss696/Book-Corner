@@ -63,6 +63,17 @@ public class OpenLibraryClient {
             .toList();
     }
 
+    public Optional<String> getBookDetailsByOlid(String olid) throws IOException {
+        // Build the URL for fetching book details by OLID
+        HttpUrl url = parseAndGetNewURLBuilder("/books/" + olid + ".json").build();
+
+        // Create the HTTP request
+        Request request = new Request.Builder().url(url).build();
+
+        // Execute the request and return the response
+        return executeRequest(request);
+    }
+
     // Helper method to parse URL and return a new HttpUrl.Builder
     private HttpUrl.Builder parseAndGetNewURLBuilder(String path) throws IllegalArgumentException {
         HttpUrl httpUrl = HttpUrl.parse(BASE_URL + path);
