@@ -4,4 +4,4 @@ plugins {
 }
 
 // Define the Gradle root project name. This name is used for generated artifacts and in IDE imports.
-rootProject.name = "bookcorner"
+rootProject.name = "bookcorner-api"

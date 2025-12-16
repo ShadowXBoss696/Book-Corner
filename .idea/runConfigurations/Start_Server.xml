@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Start Server" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-    <module name="bookcorner.main" />
+    <module name="bookcorner-api.main" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.bookcorner.app.BookstoreApplication" />
     <extension name="coverage">
       <pattern>
@@ -11,7 +11,6 @@
     </extension>
     <method v="2">
       <option name="Make" enabled="true" />
-      <option name="RunConfigurationTask" enabled="true" run_configuration_name="Setup Infra" run_configuration_type="docker-deploy" />
     </method>
   </configuration>
 </component>

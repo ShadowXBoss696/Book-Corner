@@ -30,7 +30,7 @@ spring:
 
   # Migration Configuration
   flyway:
-    enabled: true
+    enabled: false
     locations: classpath:db/migration
     baseline-on-migrate: true
     clean-disabled: false       # Enable clean for development purposes
@@ -43,6 +43,7 @@ spring:
   # Docker Integration
   docker:
     compose:
+      enabled: false
       file: docker-compose.yml
       lifecycle-management: start_only
 

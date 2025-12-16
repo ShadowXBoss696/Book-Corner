@@ -1,5 +1,7 @@
 package com.bookcorner.app.model.entity;
 
+import com.bookcorner.app.model.entity.base.AuditableEntity;
+import com.bookcorner.app.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "books")
-public class Book extends BaseEntity {
+public class Book extends AuditableEntity {
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -33,7 +35,7 @@ public class Book extends BaseEntity {
     @Column(name = "page_count")
     private Integer pageCount;
 
-    @Column(name = "olid")
+    @Column(name = "olid", nullable = false)
     private String olid;
 
     @Column(name = "isbn_10")
@@ -44,12 +46,4 @@ public class Book extends BaseEntity {
 
     @Column(name = "language_code")
     private String languageCode;
-
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private Instant createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
 }

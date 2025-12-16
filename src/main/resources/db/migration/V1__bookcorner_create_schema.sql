@@ -1,3 +1,9 @@
+-- Book-Corner Database v1.0 - Arpan Mahanty
+
+-- Clean DB (optional)
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+
 --
 -- Enum: Author Roles
 --
@@ -22,7 +28,7 @@ CREATE TABLE books (
 	summary VARCHAR(4096),
 	publication_year INTEGER,
 	page_count INTEGER,
-	olid VARCHAR(20),
+	olid VARCHAR(20) NOT NULL,
 	isbn_10 VARCHAR(10),
 	isbn_13 VARCHAR(13),
 	language_code VARCHAR(10) DEFAULT 'en',
@@ -46,7 +52,7 @@ CREATE TABLE authors (
 	id BIGINT NOT NULL DEFAULT nextval('authors_id_seq'),
 	name VARCHAR(1024) NOT NULL,
 	bio VARCHAR(4096),
-	olid VARCHAR(20),
+	olid VARCHAR(20) NOT NULL,
 	created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
 	updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
 	CONSTRAINT authors_pk PRIMARY KEY (id)

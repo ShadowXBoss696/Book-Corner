@@ -1,5 +1,7 @@
 package com.bookcorner.app.model.entity;
 
+import com.bookcorner.app.model.entity.base.AuditableEntity;
+import com.bookcorner.app.model.entity.base.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,15 +10,13 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @Entity
 @Table(name = "authors")
-public class Author extends BaseEntity {
+public class Author extends AuditableEntity {
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -24,17 +24,6 @@ public class Author extends BaseEntity {
     @Column(name = "bio")
     private String bio;
 
-    @Column(name = "olid")
+    @Column(name = "olid", nullable = false)
     private String olid;
-
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<BookAuthor> books = new HashSet<>();
-
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private Instant createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
 }
