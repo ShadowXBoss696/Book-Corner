@@ -1,20 +1,13 @@
 package com.bookcorner.app.service;
 
-import com.bookcorner.app.client.OpenLibraryClient;
-import com.bookcorner.app.mapper.BookMapper;
-import com.bookcorner.app.model.dto.BookSummary;
-import com.bookcorner.app.model.entity.Book;
-import com.bookcorner.app.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
-public class BookService {
+public class CatalogService {
 
+    /*
     // Repositories and Mappers
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
@@ -34,15 +27,12 @@ public class BookService {
         }
     }
 
-    private BookSummary getBookByIsbn(String isbn) {
-        return null;
-    }
-
     private BookSummary getBookByOlid(String olid) {
         Book book = bookRepository.findByOlid(olid)
-            .or(() -> dataLoaderService.loadBookByOlid(olid))
+            // .or(() -> dataLoaderService.loadBookByOlid(olid))
             .orElseThrow(() -> new RuntimeException("Book with OLID " + olid + " not found"));
 
         return bookMapper.convertToBookSummary(book);
     }
+    */
 }

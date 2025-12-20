@@ -1,26 +1,28 @@
 package com.bookcorner.app.service;
 
-import com.bookcorner.app.client.OpenLibraryClient;
-import com.bookcorner.app.model.entity.Book;
-import com.bookcorner.app.repository.BookRepository;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class DataLoaderService {
 
+
+
+
+
+
+    /*
     private final BookRepository bookRepository;
 
     private final OpenLibraryClient olClient;
     private final ObjectMapper objectMapper;
+
+    public Optional<Book> fetchBookByOlid(@NonNull String olid) {
+        return Optional.empty();
+    }
 
     @Transactional
     public Optional<Book> loadBookByOlid(String olid) {
@@ -49,4 +51,5 @@ public class DataLoaderService {
         }
         return Optional.empty();
     }
+    */
 }
