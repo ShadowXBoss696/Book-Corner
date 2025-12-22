@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Component
@@ -95,7 +96,7 @@ public class OpenLibraryClient {
      * @throws ThirdPartyClientException If an error occurs during the request.
      * @throws JsonProcessingException If an error occurs while parsing the JSON response, returned by the external provider.
      */
-    public Optional<ExtBookDetails> fetchBookDetails(String bookId) throws ThirdPartyClientException, JsonProcessingException {
+    public ExtBookDetails fetchBookDetails(String bookId) throws ThirdPartyClientException, JsonProcessingException, NoSuchElementException {
         // Validate input parameter
         validateStringParameter("Book ID", bookId);
 
@@ -108,12 +109,11 @@ public class OpenLibraryClient {
         // Execute the request and get the response
         Optional<String> responseBody = performApiRequest(request);
         if (responseBody.isEmpty()) {
-            return Optional.empty();
+            throw new NoSuchElementException("Book with given ID not found");
         }
 
         // Parse and return the book details
-        var bookDetails = parseBookDetailsFromJson(responseBody.get());
-        return Optional.of(bookDetails);
+        return parseBookDetailsFromJson(responseBody.get());
     }
 
     /**
