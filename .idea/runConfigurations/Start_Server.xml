@@ -2,7 +2,7 @@
   <configuration default="false" name="Start Server" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
     <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
     <module name="bookcorner-api.main" />
-    <option name="SPRING_BOOT_MAIN_CLASS" value="com.bookcorner.app.BookstoreApplication" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="org.bookcorner.api.BookCornerApplication" />
     <extension name="coverage">
       <pattern>
         <option name="PATTERN" value="com.bookcorner.app.*" />

@@ -6,7 +6,7 @@ plugins {
     id 'com.github.ben-manes.versions' version '0.53.0'   // Checks for dependency updates
 }
 
-group = 'com.bookcorner'
+group = 'org.bookcorner'
 version = '0.0.2-SNAPSHOT'
 description = 'Book Corner API'
 
@@ -59,8 +59,8 @@ dependencies {
     implementation 'io.github.resilience4j:resilience4j-retry'
 
     // Apache Commons Libraries
-    implementation 'org.apache.commons:commons-lang3'
-    implementation 'commons-io:commons-io'
+    implementation 'org.apache.commons:commons-lang3:3.20.0'
+    implementation 'commons-io:commons-io:2.21.0'
 
     // Annotation processors
     compileOnly 'org.projectlombok:lombok'
