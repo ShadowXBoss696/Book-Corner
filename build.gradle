@@ -2,13 +2,21 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '4.0.1'
     id 'io.spring.dependency-management' version '1.1.7'
+
+    // Check for dependency updates
+    id 'com.github.ben-manes.versions' version '0.53.0'
+
+    // IDE integration plugins
     id 'idea'
-    id 'com.github.ben-manes.versions' version '0.53.0'   // Checks for dependency updates
 }
 
 group = 'org.bookcorner'
-version = '0.0.2-SNAPSHOT'
-description = 'Book Corner API'
+version = '0.0.3-SNAPSHOT'
+
+description = "This project contains the API implementation for the BookCorner application."
+
+
+// Requires Java 25 from Azul Systems
 
 java {
     toolchain {
@@ -18,7 +26,11 @@ java {
 }
 
 
-// Dependency Management & Configurations
+// Dependency management and Repository configuration
+
+repositories {
+    mavenCentral()
+}
 
 configurations {
     compileOnly {
@@ -26,29 +38,9 @@ configurations {
     }
 }
 
-repositories {
-    mavenCentral()      // Maven Central Repository
-}
-
 dependencies {
     // Spring Web
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
-
-    // Spring Data JPA for database interactions
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-flyway'
-    implementation 'org.flywaydb:flyway-database-postgresql'
-    runtimeOnly 'org.postgresql:postgresql'
-
-    // Spring Actuator for monitoring and management
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
-    // OpenAPI and Swagger
-    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui'
-
-    // Spring Docker integration
-    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 
     // HTTP Client
     implementation 'com.squareup.okhttp3:okhttp'
@@ -59,8 +51,8 @@ dependencies {
     implementation 'io.github.resilience4j:resilience4j-retry'
 
     // Apache Commons Libraries
-    implementation 'org.apache.commons:commons-lang3:3.20.0'
-    implementation 'commons-io:commons-io:2.21.0'
+    implementation 'org.apache.commons:commons-lang3:3.18.0'
+    implementation 'commons-io:commons-io:2.20.0'
 
     // Annotation processors
     compileOnly 'org.projectlombok:lombok'
@@ -68,19 +60,12 @@ dependencies {
 
     // Testing dependencies
     testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-flyway-test'
-    testImplementation 'org.springframework.boot:spring-boot-starter-actuator-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-    // Testcontainers for integration testing
-    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
-    testImplementation 'org.testcontainers:testcontainers-junit-jupiter'
-    testImplementation 'org.testcontainers:testcontainers-postgresql'
 }
 
 dependencyManagement {
     imports {
+        mavenBom 'org.springframework.boot:spring-boot-dependencies:4.0.1'
         mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2025.1.0'
         mavenBom 'org.springdoc:springdoc-openapi-bom:3.0.0'
         mavenBom 'com.squareup.okhttp3:okhttp-bom:5.3.2'
@@ -90,22 +75,22 @@ dependencyManagement {
 }
 
 
-// Task configurations
+// Java compilation and testing configuration
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
     options.compilerArgs += [
-        '-parameters',          // Preserve parameter names for reflection
-        '-Xlint:unchecked',     // Enable unchecked operation warnings
-        '-Xlint:deprecation'    // Enable deprecation warnings
+        '-parameters',          // Preserves parameter names for reflection
+        '-Xlint:unchecked',     // Enables unchecked operation warnings
+        '-Xlint:deprecation'    // Enables deprecation warnings
     ]
 }
 
-tasks.named('test') {
-    useJUnitPlatform()          // Use JUnit Platform for testing
+test {
+    useJUnitPlatform()      // Using JUnit Platform for testing
 }
 
-tasks.named('wrapper') {
+wrapper {
     gradleVersion = 'latest'
     distributionType = Wrapper.DistributionType.BIN
 }

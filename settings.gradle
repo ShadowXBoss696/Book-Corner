@@ -1,5 +1,6 @@
 plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'       // Java toolchain resolver
+    // Java toolchain resolver plugin for Gradle
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
 }
 
-rootProject.name = "bookcorner-api"
+rootProject.name = 'bookcorner-api'
